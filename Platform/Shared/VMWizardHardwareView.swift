@@ -63,6 +63,26 @@ struct VMWizardHardwareView: View {
                     .accessibilityIdentifier(UTMAccessibilityID.Wizard.expertMode)
                     .help("List all supported hardware. May require manual configuration to boot.")
             }
+
+            if wizardState.operatingSystem == .Windows && !wizardState.useVirtualization {
+                Section {
+                    Button {
+                        wizardState.applyMachine(.arm64Virt)
+                        wizardState.systemMemoryMib = 3072
+                        wizardState.systemCpuCount = 2
+                        wizardState.storageSizeGib = 64
+                        wizardState.setWindows10OrHigher(true)
+                        wizardState.isExpertMode = false
+                    } label: {
+                        Label("Apply Windows Quick Setup", systemImage: "speedometer")
+                    }
+                    Text("Uses an ARM64 virtual machine, 3 GB RAM, 2 CPU cores, and a 64 GB virtual disk. Select an ARM64 Windows ISO on the next page.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                } header: {
+                    Text("Quick Setup")
+                }
+            }
             if !wizardState.useVirtualization && wizardState.isExpertMode {
                 Section {
                     VMConfigConstantPicker(selection: $wizardState.systemArchitecture)
