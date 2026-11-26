@@ -57,6 +57,15 @@ struct VMWizardOSWindowsView: View {
             #endif
 
             Section {
+                Label("For best performance on iPad, use an ARM64 Windows ISO with an ARM64 virtual machine.", systemImage: "speedometer")
+                Text("An x64 Windows ISO can still be used with an x86_64 machine, but it must be emulated on Apple silicon and may run much slower.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } header: {
+                Text("Performance tip")
+            }
+
+            Section {
                 if wizardState.legacyHardware {
                     Picker("Boot Device", selection: $wizardState.bootDevice) {
                         Text("CD/DVD Image").tag(VMBootDevice.cd)
