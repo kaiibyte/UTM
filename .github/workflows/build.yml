@@ -225,6 +225,18 @@ jobs:
         with:
           name: UTM-${{ matrix.configuration.scheme }}-${{ matrix.configuration.platform }}-${{ matrix.configuration.arch }}
           path: UTM.xcarchive.tgz
+      - name: Package unsigned IPA for SideStore
+        if: matrix.configuration.platform == 'ios' && matrix.configuration.scheme == 'iOS'
+        run: |
+          mkdir -p package-output
+          ./scripts/package.sh ipa UTM.xcarchive package-output
+      - name: Upload SideStore IPA
+        if: matrix.configuration.platform == 'ios' && matrix.configuration.scheme == 'iOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: UTM-SideStore-unsigned-IPA
+          path: package-output/UTM.ipa
+          if-no-files-found: error
   test-utm:
     name: Test UTM
     runs-on: ${{ fromJSON(needs.configuration.outputs.runner) }}
