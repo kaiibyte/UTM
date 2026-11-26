@@ -107,7 +107,7 @@ struct AlertMessage: Identifiable {
     @Published var isBusy: Bool = false
     @Published var systemBootUefi: Bool = true
     @Published var systemBootTpm: Bool = true
-    @Published var isGuestToolsInstallRequested: Bool = false
+    @Published var isGuestToolsInstallRequested: Bool = true
     @Published var useVirtualization: Bool = false {
         didSet {
             if !useVirtualization {
